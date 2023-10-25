@@ -1,3 +1,5 @@
+"""Tom Schäfer, Erik Gladitz FPP WS23/24"""
+
 def decrypt(text, shift):
     plain = ""
     

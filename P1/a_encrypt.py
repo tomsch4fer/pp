@@ -1,6 +1,5 @@
 """Tom Schäfer, Erik Gladitz FPP WS23/24"""
 
-
 def encrypt(plain, shift):
     cipher = ""
 
