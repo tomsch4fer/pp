@@ -328,4 +328,6 @@ s2 = '1'
 # first numbers, then letters, lexicographic ordering comparison
 
 if s1 > s2:
-  print("no way!")
+  print("A > 1")
+
+# "is" = referenz, ""=="" = wert
