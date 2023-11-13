@@ -1,13 +1,17 @@
 """Tom Schäfer, FPP WS23/24"""
 
+""" TODO: tenäre Operatoren & List comprehensions um Code abzukürzen """
+
 import random
 
 class Card:
+    """init-"""
     value = ''
     symbol = ''
     name = ''
 
 def draw_card(discrad_pile):
+    """ creates card with symbol, vaue & name-string & excludes doubled cards from game() """
     symbol = ['♣', '♦', '♥', '♠']
     value = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Bube', 'Dame', 'König', 'Ass']
     card = Card()
@@ -17,16 +21,18 @@ def draw_card(discrad_pile):
         card.value = random.choice(value)
         card.name = f'{card.symbol}-{card.value}'
         
-        # no doubling - 52 unique cards
+        """ no doubling - 52 unique cards """
         if card.name not in discrad_pile:
             discrad_pile.append(card.name)
 
-            # set comparison value based on index
+            """ set comparison value based on index """
             card.value = value.index(card.value)
             card.symbol = symbol.index(card.symbol)
+            """ hard return-- """
             return card
 
 def game():
+    """ compares 2 card values, sets score & allows abortion """
     score = 0
     discrad_pile = []
     active_card = draw_card(discrad_pile)
@@ -43,6 +49,8 @@ def game():
         new_card = draw_card(discrad_pile)
         print(f'Die neue Karte ist {new_card.name}')
         
+        """ logic too complex for single function-- """
+        """ sprechende Variablennamen++ """   
         if choice.lower() == 'h':
             if active_card.value < new_card.value:
                 print('Richtig! Die Karte ist höher.')
@@ -58,7 +66,7 @@ def game():
             else:
                 print('Falsch! Die Karte ist nicht höher.')
                 score -= 15
-                
+
         elif choice.lower() == 'n':
             if active_card.value > new_card.value:
                 print('Richtig! Die Karte ist niedriger.')

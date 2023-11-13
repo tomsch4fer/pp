@@ -1,6 +1,7 @@
 """Tom Schäfer, Erik Gladitz FPP WS23/24"""
 
 def decrypt(text, shift):
+    """ subtracts unicode shift onto text """
     plain = ""
     
     for char in text:

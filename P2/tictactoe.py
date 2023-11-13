@@ -1,6 +1,7 @@
 """Tom Schäfer, Erik Gladitz FPP WS23/24"""
 
 class TicTacToe:
+    # nur eine Klasse ist nicht objektorientiert -> player, board, 
     def __init__(self):
         self.board = [['--', '--', '--'],
                       ['--', '--', '--'],
