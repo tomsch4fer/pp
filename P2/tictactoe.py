@@ -1,71 +1,83 @@
 """Tom Schäfer, Erik Gladitz FPP WS23/24"""
 
-class TicTacToe:
-    # nur eine Klasse ist nicht objektorientiert -> player, board, 
-    def __init__(self):
-        self.board = [['--', '--', '--'],
-                      ['--', '--', '--'],
-                      ['--', '--', '--']]
-        self.current_player = 'Player 1'
 
-    def print_board(self):
-        for row in self.board:
+class Player:
+    """ creates Player differentiation X/O """
+    def __init__(self):
+        self.symbol = 'X'
+
+class Board:
+    """ creates board to play on & allows printing, checking fullness & making moves """
+    def __init__(self):
+        self.cells = [['—', '—', '—'],
+                      ['—', '—', '—'],
+                      ['—', '—', '—']]
+        
+    def view(self):
+        print()
+        for row in self.cells:
             print(" ".join(row))
         print()
-
-    def make_move(self, row, col):
-        if self.board[row - 1][col - 1] == '--':
-            self.board[row - 1][col - 1] = 'X' if self.current_player == 'Player 1' else 'O'
+    
+    def strike(self, player, row, col):
+        if self.cells[row - 1][col - 1] == '—':
+            self.cells[row - 1][col - 1] = 'X' if player.symbol == 'X' else 'O'
         else:
-            print("Feld bereits belegt. Bitte erneut versuchen.")
+            print("Field occupied. Try again!")
 
-    def check_winner(self):
-        for row in self.board:
-            if row[0] == row[1] == row[2] != '--':
+    def full(self):
+        for row in self.cells:
+            if '—' in row:
+                return False
+        return True
+            
+class TicTacToe:
+    """ initializes game, checks winner & holds game logic """
+    def __init__(self):
+        self.board = Board()
+        self.player = Player()
+
+    def win(self):
+        for row in self.board.cells:
+            if row[0] == row[1] == row[2] != '—':
                 return True
 
         for col in range(3):
-            if self.board[0][col] == self.board[1][col] == self.board[2][col] != '--':
+            if self.board.cells[0][col] == self.board.cells[1][col] == self.board.cells[2][col] != '—':
                 return True
 
-        if self.board[0][0] == self.board[1][1] == self.board[2][2] != '--':
+        if self.board.cells[0][0] == self.board.cells[1][1] == self.board.cells[2][2] != '—':
             return True
 
-        if self.board[0][2] == self.board[1][1] == self.board[2][0] != '--':
+        if self.board.cells[0][2] == self.board.cells[1][1] == self.board.cells[2][0] != '—':
             return True
 
         return False
 
-    def is_board_full(self):
-        for row in self.board:
-            if '--' in row:
-                return False
-        return True
-
     def play(self):
-        print("Willkommen bei TicTacToe")
-        self.print_board()
+        print("TicTacToe started.")
+        self.board.view()
 
         while True:
-            print(f"{self.current_player} ist an der Reihe")
+            print(f"{self.player.symbol}'s turn.")
             try:
-                row = int(input("Bitte Zeile eingeben: "))
-                col = int(input("Bitte Spalte eingeben: "))
+                row = int(input("row(|): "))
+                col = int(input("column(—): "))
                 if 1 <= row <= 3 and 1 <= col <= 3:
-                    self.make_move(row, col)
-                    self.print_board()
-                    if self.check_winner():
-                        print(f"{self.current_player} hat gewonnen!")
+                    self.board.strike(self.player, row, col)
+                    self.board.view()
+                    if self.win():
+                        print(f"{self.player.symbol} wins!")
                         break
                     else:
-                        self.current_player = 'Player 2' if self.current_player == 'Player 1' else 'Player 1'
-                    if self.is_board_full():
-                        print("Das Spiel endet unentschieden.")
+                        self.player.symbol = 'O' if self.player.symbol == 'X' else 'X'
+                    if self.board.full():
+                        print("conclucion: draw.")
                         break
                 else:
-                    print("Ungültige Eingabe. Bitte Zeile und Spalte zwischen 1 und 3 wählen.")
+                    print("Invalid input. row & column are limited from 1 to 3.")
             except ValueError:
-                print("Ungültige Eingabe. Bitte geben Sie ganze Zahlen ein.")
+                print("Invalid input. Please enter a whole number.")
 
 
 if __name__ == "__main__":

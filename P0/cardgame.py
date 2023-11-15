@@ -5,10 +5,10 @@
 import random
 
 class Card:
-    """init-"""
-    value = ''
-    symbol = ''
-    name = ''
+    def __init__(self):
+        self.value = ''
+        self.symbol = ''
+        self.name = ''
 
 def draw_card(discrad_pile):
     """ creates card with symbol, vaue & name-string & excludes doubled cards from game() """
@@ -22,14 +22,52 @@ def draw_card(discrad_pile):
         card.name = f'{card.symbol}-{card.value}'
         
         """ no doubling - 52 unique cards """
-        if card.name not in discrad_pile:
-            discrad_pile.append(card.name)
+        if card.name in discrad_pile:
+            continue
+        
+        discrad_pile.append(card.name)
 
-            """ set comparison value based on index """
-            card.value = value.index(card.value)
-            card.symbol = symbol.index(card.symbol)
-            """ hard return-- """
-            return card
+        """ set comparison value based on index """
+        card.value = value.index(card.value)
+        card.symbol = symbol.index(card.symbol)
+        return card
+    
+def compare(active_card, new_card, choice):
+    """ compare cards, give feedback & set score """
+    if choice.lower() == 'h':
+            if active_card.value < new_card.value:
+                print('Richtig! Die Karte ist höher.')
+                score += 20
+            # requirements modified: upon same value, symbol value is compared
+            elif active_card.value == new_card.value:
+                if active_card.symbol < new_card.symbol:
+                    print('Richtig! Das Symbol ist höher.')
+                    score += 20
+                else:
+                    print('Falsch! Das Symbol ist höher.')
+                    score -= 15
+            else:
+                print('Falsch! Die Karte ist nicht höher.')
+                score -= 15
+
+    elif choice.lower() == 'n':
+        if active_card.value > new_card.value:
+            print('Richtig! Die Karte ist niedriger.')
+            score += 20
+        elif active_card.value == new_card.value:
+            if active_card.symbol > new_card.symbol:
+                print('Richtig! Das Symbol ist niedriger.')
+                score += 20
+            else:
+                print('Falsch! Das Symbol ist niedriger.')
+                score -= 15
+        else:
+            print('Falsch! Die Karte ist nicht niedriger.')
+            score -= 15
+    else:
+        print('Ungültige Eingabe. Bitte wähle "h" für Höher, "n" für Niedriger oder "a" zum Abbrechen.')
+        x -= 1
+
 
 def game():
     """ compares 2 card values, sets score & allows abortion """
@@ -49,44 +87,8 @@ def game():
         new_card = draw_card(discrad_pile)
         print(f'Die neue Karte ist {new_card.name}')
         
-        """ logic too complex for single function-- """
-        """ sprechende Variablennamen++ """   
-        if choice.lower() == 'h':
-            if active_card.value < new_card.value:
-                print('Richtig! Die Karte ist höher.')
-                score += 20
-            # requirements modified: upon same value, symbol value is compared
-            elif active_card.value == new_card.value:
-                if active_card.symbol < new_card.symbol:
-                    print('Richtig! Das Symbol ist höher.')
-                    score += 20
-                else:
-                    print('Falsch! Das Symbol ist höher.')
-                    score -= 15
-            else:
-                print('Falsch! Die Karte ist nicht höher.')
-                score -= 15
-
-        elif choice.lower() == 'n':
-            if active_card.value > new_card.value:
-                print('Richtig! Die Karte ist niedriger.')
-                score += 20
-            elif active_card.value == new_card.value:
-                if active_card.symbol > new_card.symbol:
-                    print('Richtig! Das Symbol ist niedriger.')
-                    score += 20
-                else:
-                    print('Falsch! Das Symbol ist niedriger.')
-                    score -= 15
-            else:
-                print('Falsch! Die Karte ist nicht niedriger.')
-                score -= 15
-        else:
-            print('Ungültige Eingabe. Bitte wähle "h" für Höher, "n" für Niedriger oder "a" zum Abbrechen.')
-            x -= 1
-
+        compare(active_card, new_card, choice)
         active_card = new_card
-
 
     print(f'\nGG. Du hast {score} Punkte erreicht!\n')
 
