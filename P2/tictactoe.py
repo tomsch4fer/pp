@@ -1,4 +1,4 @@
-"""Tom Schäfer, Erik Gladitz FPP WS23/24"""
+"""Tom Schäfer, Erik Gladitz FPP WS23/24 - Mo56x_Gruppe_03"""
 
 
 class Player:
@@ -22,8 +22,10 @@ class Board:
     def strike(self, player, row, col):
         if self.cells[row - 1][col - 1] == '—':
             self.cells[row - 1][col - 1] = 'X' if player.symbol == 'X' else 'O'
+            return True
         else:
             print("Field occupied. Try again!")
+            return False
 
     def full(self):
         for row in self.cells:
@@ -64,13 +66,18 @@ class TicTacToe:
                 row = int(input("row(|): "))
                 col = int(input("column(—): "))
                 if 1 <= row <= 3 and 1 <= col <= 3:
-                    self.board.strike(self.player, row, col)
-                    self.board.view()
+                    if self.board.strike(self.player, row, col):
+                        self.board.view()
+                    else:
+                        self.board.view()
+                        continue
+
                     if self.win():
                         print(f"{self.player.symbol} wins!")
                         break
                     else:
                         self.player.symbol = 'O' if self.player.symbol == 'X' else 'X'
+
                     if self.board.full():
                         print("conclucion: draw.")
                         break
